@@ -6,17 +6,24 @@ import os
 # Load the model safely
 model_path = os.path.join(os.path.dirname(__file__), 'flight_price.pkl')
 if not os.path.exists(model_path):
-    st.error("❌ Model file 'flight_price.pkl' not found. Please check the path.")
+    st.error("❌ Model file 'flight_price.pkl' not found. Please check your GitHub repo.")
     st.stop()
 
-with open(model_path, 'rb') as file:
-    loaded_model = pickle.load(file)
+try:
+    with open(model_path, 'rb') as file:
+        loaded_model = pickle.load(file)
+except ModuleNotFoundError as e:
+    st.error(f"❌ Missing module: {e.name}. Add it to requirements.txt and redeploy.")
+    st.stop()
+except Exception as e:
+    st.error(f"❌ Failed to load model: {e}")
+    st.stop()
 
 st.title("✈️ Flight Price Predictor")
 
 # Use a form for cleaner layout
 with st.form("flight_form"):
-    st.subheader("📋 Flight Details")
+    st.subheader("📋 Enter Flight Details")
 
     airline = st.number_input("Airline (encoded)", min_value=0, help="Use the encoded value for the airline")
     source = st.number_input("Source (encoded)", min_value=0, help="Use the encoded value for the source airport")
@@ -49,6 +56,7 @@ with st.form("flight_form"):
 # if __name__ == '__main__':
  #   main()
    
+
 
 
 
