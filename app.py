@@ -1,10 +1,10 @@
 import streamlit as st
 import numpy as np
-import joblib
+import pickle
 
 # Load the model
-with open(r'C:\Users\pc\Desktop\Practical_cat\flight_price.pkl', 'rb') as file:
-    model = joblib.load(file)
+with open('flight_price.pkl', 'rb') as file:
+    My_model = pickle.load(file)
 
 st.title("✈️ Flight Price Predictor")
 
@@ -27,10 +27,11 @@ if st.button("Predict Price"):
     input_data = np.array([airline, source, destination, total_stops, date, month, year,
                            dep_hour, dep_min, arr_hour, arr_min, duration])
     input_data = input_data.reshape(1, -1)
-    prediction = model.predict(input_data)
+    prediction = My_model.predict(input_data)
     st.success(f"Predicted Price: {prediction[0]:.2f} RWF")
 
 # Run the app
 # if __name__ == '__main__':
  #   main()
    
+
