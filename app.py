@@ -4,7 +4,7 @@ import pickle
 
 # Load the model
 with open('flight_price.pkl', 'rb') as file:
-    model = pickle.load(file)
+    loaded_model = pickle.load(file)
 
 st.title("✈️ Flight Price Predictor")
 
@@ -27,12 +27,13 @@ if st.button("Predict Price"):
     input_data = np.array([airline, source, destination, total_stops, date, month, year,
                            dep_hour, dep_min, arr_hour, arr_min, duration])
     input_data = input_data.reshape(1, -1)
-    prediction = model.predict(input_data)
+    prediction = loaded_model.predict(input_data)
     st.success(f"Predicted Price: {prediction[0]:.2f} RWF")
 
 # Run the app
 # if __name__ == '__main__':
  #   main()
    
+
 
 
